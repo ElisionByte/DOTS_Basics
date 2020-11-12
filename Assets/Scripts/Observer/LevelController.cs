@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Observer
+namespace Observer
 {
     public class LevelController : MonoBehaviour
     {
@@ -15,18 +15,15 @@ namespace Assets.Scripts.Observer
         {
             _subject = new Subject();
         }
-
         private void Start()
         {
             _subject.Attach(_observers);
         }
-
         private void FixedUpdate()
         {
             if(IsLevelLoaded)
                 _subject.Notify();
         }
-
         private void OnDestroy()
         {
             _subject.Detach();

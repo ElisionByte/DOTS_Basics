@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.Jobs;
 
-namespace Assets.Scripts.Observer
+namespace Observer
 {
     public class Observer : MonoBehaviour
     {
         public float rotationSpeed;
         public ObserverType type;
     }
-
     public struct ObserverData
     {
         public float delta;
@@ -18,7 +17,6 @@ namespace Assets.Scripts.Observer
             delta = observer.rotationSpeed;
             type = observer.type;
         }
-
         public void UpdateData(TransformAccess transform)
         {
             switch (type)
@@ -51,7 +49,6 @@ namespace Assets.Scripts.Observer
             }
         }
     }
-
     public enum ObserverType
     {
         Y_Rotator = 0,

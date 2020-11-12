@@ -4,11 +4,12 @@ using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Jobs;
 
-namespace Assets.Scripts.Observer
+namespace Observer
 {
     public class Subject : ISubject
     {
         private List<Observer> _observers = new List<Observer>();
+
         private SubjectJob _job;
         private JobHandle _jobHandle;
         private NativeArray<ObserverData> _subjectDataArray;
@@ -32,13 +33,11 @@ namespace Assets.Scripts.Observer
 
             _job = new SubjectJob { Data = _subjectDataArray };
         }
-
         public void Detach()
         {
             _subjectDataArray.Dispose();
             _transformAccessArray.Dispose();
         }
-
         public void Notify()
         {
             _jobHandle = _job.Schedule(_transformAccessArray);
@@ -46,8 +45,6 @@ namespace Assets.Scripts.Observer
             _jobHandle.Complete();
         }
     }
-
-
     public struct SubjectJob : IJobParallelForTransform
     {
         public NativeArray<ObserverData> Data;

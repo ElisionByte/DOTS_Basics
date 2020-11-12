@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Observer
+﻿namespace Observer
 {
     interface ISubject
     {
