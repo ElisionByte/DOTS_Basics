@@ -1,10 +1,11 @@
-﻿using Assets.Scripts.Hero;
+﻿using Player.Characters;
+
 using UnityEngine;
 
 public class ReturnToCheckPoint : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<IHero>().ToCheckPoint();
+        //other.GetComponent<Character>().ToCheckPoint();
     }
 }

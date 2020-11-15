@@ -11,6 +11,7 @@ namespace ObjectPool
 
         private void Awake()
         {
+            _pool = new Queue<T>();
             for (int i = 0; i < poolSize; i++)
             {
                 _pool.Enqueue(CreatePoolInstance());
