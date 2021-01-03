@@ -9,12 +9,10 @@ namespace Player.Characters.States
 
         public override void OnStateEnter()
         {
-            Debug.Log("Idle Enter");
         }
 
         public override void OnStateExit()
         {
-            Debug.Log("Idle Exit");
         }
 
         public override void Tick()

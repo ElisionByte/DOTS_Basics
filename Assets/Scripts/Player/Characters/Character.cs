@@ -19,11 +19,6 @@ namespace Player.Characters
 
         protected State currentState;
 
-        private void Start()
-        {
-            SetState(new IdleState(this));
-        }
-
         public abstract void JumpCheck();
         public abstract void RotateCheck();
 

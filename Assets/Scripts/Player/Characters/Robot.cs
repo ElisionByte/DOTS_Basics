@@ -1,16 +1,37 @@
-﻿using UnityEngine;
+﻿using CodeBase.Logic.Weapon;
+
+using Player.Characters.States;
+
+using UnityEngine;
 
 namespace Player.Characters
 {
     class Robot : Character
     {
+        public Katana weapon;
+        public BoxCollider boxCollider;
+        public int layerID;
         private float _turnSmothVelocity = 0f;
 
         private bool IsPlayerJumped => Controller.isGrounded && Input.GetKey(KeyCode.Space);
 
+        private void Start()
+        {
+            SetState(new IdleState(this));
+            weapon.Setup(boxCollider, layerID);
+        }
+
         private void FixedUpdate()
         {
             currentState.Tick();
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                weapon.Atack();
+            }
         }
 
         public override void JumpCheck()
