@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
+
 namespace CodeBase.Logic.Hero
 {
+    [RequireComponent(typeof(Animator))]
     public class HeroAnimator : MonoBehaviour
     {
         public Animator animator;
@@ -9,7 +11,9 @@ namespace CodeBase.Logic.Hero
 
         private int _speed = Animator.StringToHash("Speed");
 
-        private void Update() =>
+        private void Update()
+        {
             animator.SetFloat(_speed, rigidbody.velocity.magnitude, 0.1f, Time.deltaTime);
+        }
     }
 }

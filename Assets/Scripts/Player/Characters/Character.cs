@@ -11,7 +11,7 @@ namespace Player.Characters
         public float Speed;
 
         [HideInInspector] public Vector3 MoveDirection;
-        [HideInInspector] public Vector2 RotationDirection;
+        [HideInInspector] public Vector2 RotationDirection { get; set; }
 
         [SerializeField] protected float gravity = 19.81f;
         [SerializeField] protected float turnSmothTime = 0.2f;

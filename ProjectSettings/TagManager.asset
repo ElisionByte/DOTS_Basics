@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - InitPoint
+  - HeroInitPoint
   layers:
   - Default
   - TransparentFX
@@ -15,9 +15,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - Map
-  - Player
-  - DetroyableWorld
+  - Ground
+  - GroundCheck
+  - 
   - 
   - 
   - 

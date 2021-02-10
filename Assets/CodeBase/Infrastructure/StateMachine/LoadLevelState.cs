@@ -6,23 +6,24 @@ namespace CodeBase.Infrastructure.StateMachine
 {
     public class LoadLevelState : IPayloadedState<string>
     {
-        private readonly GameStateMachine gameStateMachine;
-        private readonly SceneLoader sceneLoader;
-        private readonly IGameFactory gameFactory;
-        private readonly LoadingCurtain loadingCurtain;
+        private const string _initPointTag = "HeroInitPoint";
+        private readonly GameStateMachine _gameStateMachine;
+        private readonly SceneLoader _sceneLoader;
+        private readonly IHeroFactory _gameFactory;
+        private readonly LoadingCurtain _loadingCurtain;
 
-        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, IGameFactory gameFactory, LoadingCurtain loadingCurtain)
+        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, IHeroFactory gameFactory, LoadingCurtain loadingCurtain)
         {
-            this.gameStateMachine = gameStateMachine;
-            this.sceneLoader = sceneLoader;
-            this.gameFactory = gameFactory;
-            this.loadingCurtain = loadingCurtain;
+            _gameStateMachine = gameStateMachine;
+            _sceneLoader = sceneLoader;
+            _gameFactory = gameFactory;
+            _loadingCurtain = loadingCurtain;
         }
 
         public void Enter(string sceneName)
         {
-            loadingCurtain.Open();
-            sceneLoader.Load(sceneName, onLoaded: OnCompletedLoad);
+            _loadingCurtain.Open();
+            _sceneLoader.Load(sceneName, onLoaded: OnCompletedLoad);
         }
 
         public void Exit()
@@ -33,11 +34,11 @@ namespace CodeBase.Infrastructure.StateMachine
         private void OnCompletedLoad()
         {
             InitGameWorld();
-            loadingCurtain.Close();
+            _loadingCurtain.Close();
         }
         private void InitGameWorld()
         {
-            gameFactory.CreateHero(GameObject.FindGameObjectWithTag("InitPoint"));
+            _gameFactory.CreateHero(GameObject.FindGameObjectWithTag(_initPointTag));
         }
     }
 }

@@ -8,10 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Initial.unity
     guid: 88a60d839a3495c4384b68e9a7e09f23
-  - enabled: 0
-    path: Assets/Sandbox/TestScenes/Development.unity
-    guid: 0a38162c716d17b40b221354ce058013
-  - enabled: 0
-    path: Assets/Sandbox/TestScenes/Menu.unity
-    guid: 1537d046fad9aba45a400ff033577594
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 7634e7adf0d31414c9fa1f2f13ea6a88
   m_configObjects: {}
