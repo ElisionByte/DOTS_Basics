@@ -15,9 +15,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - Ground
-  - GroundCheck
-  - 
+  - Agent
+  - Stairs
+  - UnClimable
   - 
   - 
   - 

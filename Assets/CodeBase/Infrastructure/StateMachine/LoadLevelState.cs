@@ -1,4 +1,5 @@
 ﻿using CodeBase.Infrastructure.Factory;
+using CodeBase.Logic.GravitySources;
 
 using UnityEngine;
 
@@ -9,14 +10,16 @@ namespace CodeBase.Infrastructure.StateMachine
         private const string _initPointTag = "HeroInitPoint";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
-        private readonly IHeroFactory _gameFactory;
         private readonly LoadingCurtain _loadingCurtain;
+        private readonly IHeroFactory _gameFactory;
+        private readonly IMapFactory _mapFactory;
 
-        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, IHeroFactory gameFactory, LoadingCurtain loadingCurtain)
+        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, IHeroFactory gameFactory,IMapFactory mapFactory, LoadingCurtain loadingCurtain)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _gameFactory = gameFactory;
+            _mapFactory = mapFactory;
             _loadingCurtain = loadingCurtain;
         }
 
@@ -38,6 +41,7 @@ namespace CodeBase.Infrastructure.StateMachine
         }
         private void InitGameWorld()
         {
+            _mapFactory.InitialiseMapComponents(GameObject.FindObjectOfType<GravitySourcesHandler>().GravitySources);
             _gameFactory.CreateHero(GameObject.FindGameObjectWithTag(_initPointTag));
         }
     }

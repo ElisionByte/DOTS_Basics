@@ -11,16 +11,22 @@ namespace CodeBase.Infrastructure.StateMachine
         private readonly Dictionary<Type, IExitableState> states;
         private IExitableState currentState;
 
-        public GameStateMachine(SceneLoader sceneLoader, AllServices services,LoadingCurtain loadingCurtain)
+        public GameStateMachine(SceneLoader sceneLoader, AllServices services, LoadingCurtain loadingCurtain)
         {
             states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, services.Single<IHeroFactory>(),loadingCurtain)
+                [typeof(LoadLevelState)] = new LoadLevelState(
+                    this,
+                    sceneLoader,
+                    services.Single<IHeroFactory>(),
+                    services.Single<IMapFactory>(),
+                    loadingCurtain
+                    )
             };
         }
 
-        public void Enter<TState>() where TState : IState => 
+        public void Enter<TState>() where TState : IState =>
             ChangeState<TState>().Enter();
 
         public void Enter<TState, TPayload>(TPayload payload) where TState : IPayloadedState<TPayload>
@@ -28,7 +34,7 @@ namespace CodeBase.Infrastructure.StateMachine
             ChangeState<TState>().Enter(payload);
         }
 
-        private TState ChangeState<TState>() where TState : IExitableState 
+        private TState ChangeState<TState>() where TState : IExitableState
         {
             currentState?.Exit();
 

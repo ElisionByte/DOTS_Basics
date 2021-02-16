@@ -3,7 +3,6 @@ using UnityEngine.Jobs;
 
 namespace Observers
 {
-
     public class Observer : MonoBehaviour
     {
         public float delta;
