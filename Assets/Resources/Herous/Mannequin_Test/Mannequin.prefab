@@ -294,7 +294,9 @@ GameObject:
   - component: {fileID: 8596755323239172931}
   - component: {fileID: 1603766712161128047}
   - component: {fileID: 4854748480735542567}
-  - component: {fileID: 5661529397299929486}
+  - component: {fileID: 5633443580391402089}
+  - component: {fileID: 9035114475121119490}
+  - component: {fileID: -1200503800177751006}
   m_Layer: 9
   m_Name: Mannequin
   m_TagString: Untagged
@@ -488,7 +490,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 7863274525860988722}
   heroRigidbody: {fileID: 8596755323239172931}
---- !u!114 &5661529397299929486
+--- !u!114 &5633443580391402089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -497,29 +499,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 826783602058363207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f389b574deb284468b0995c48fd2263, type: 3}
+  m_Script: {fileID: 11500000, guid: c7730c4830c453643906ab13162611d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroRigidbody: {fileID: 8596755323239172931}
-  maxSpeed: 4
-  maxGroundAcceleration: 30
-  maxAirAcceleration: 1
-  jumpHeight: 2
-  maxSnapSpeed: 100
-  maxGroundAngle: 25
-  maxStairsAngle: 50
-  maxClimbAngle: 140
-  maxAirJumps: 1
-  probeDistance: 1
-  probeMask:
-    serializedVersion: 2
-    m_Bits: 1331
-  stairsMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  climbMask:
-    serializedVersion: 2
-    m_Bits: 1843
+  maxSpeed: 5
+--- !u!114 &9035114475121119490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826783602058363207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd77024d042d89499804f331be3d8af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpHeight: 5
+  airJumpsCount: 1
+  groundChecker: {fileID: -1200503800177751006}
+--- !u!114 &-1200503800177751006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826783602058363207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b49ada8bf0c3b324d99963a9a3fd79e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &970434223216236563
 GameObject:
   m_ObjectHideFlags: 0

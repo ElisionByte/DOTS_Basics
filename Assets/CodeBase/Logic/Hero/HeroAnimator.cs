@@ -13,7 +13,7 @@ namespace CodeBase.Logic.Hero
 
         private void Update()
         {
-            animator.SetFloat(_speed, heroRigidbody.velocity.magnitude, 0.1f, Time.deltaTime);
+            animator.SetFloat(_speed, heroRigidbody.velocity.magnitude);
         }
     }
 }

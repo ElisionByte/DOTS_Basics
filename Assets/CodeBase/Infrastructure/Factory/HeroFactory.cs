@@ -1,5 +1,6 @@
 ﻿using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Logic.Hero;
+using CodeBase.Services.Physics;
 using CodeBase.Services.Gravity;
 
 using UnityEngine;
@@ -11,12 +12,14 @@ namespace CodeBase.Infrastructure.Factory
         private readonly IAssetProvider _assetProvider;
         private readonly IInputService _inputService;
         private readonly IGravityService _gravityService;
+        private readonly IPhysicsService _physicsDisplaycementService;
 
-        public HeroFactory(IAssetProvider assetProvider, IInputService inputService, IGravityService gravityService)
+        public HeroFactory(IAssetProvider assetProvider, IInputService inputService, IGravityService gravityService, IPhysicsService physicsDisplaycementService)
         {
             _assetProvider = assetProvider;
             _inputService = inputService;
             _gravityService = gravityService;
+            _physicsDisplaycementService = physicsDisplaycementService;
         }
 
         public GameObject CreateHero(GameObject initialPoint)
@@ -28,8 +31,10 @@ namespace CodeBase.Infrastructure.Factory
 
         private void ConstructHero(GameObject hero)
         {
-            hero.GetComponent<HeroDisplaycement>()?.Construct(_inputService,_gravityService);
+            _physicsDisplaycementService.SetRigidbody(hero.GetComponent<Rigidbody>());
             hero.GetComponentInChildren<HeroForwardRotate>()?.Construct(_inputService);
+            hero.GetComponent<HeroMove>()?.Construct(_inputService, _physicsDisplaycementService);
+            hero.GetComponent<HeroJump>()?.Construct(_inputService, _physicsDisplaycementService);
         }
     }
 }

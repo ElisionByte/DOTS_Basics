@@ -233,7 +233,6 @@ namespace CodeBase.Logic.Hero
             }
         }
 
-
         private void ClearState()
         {
             _groundContactCount = 0;

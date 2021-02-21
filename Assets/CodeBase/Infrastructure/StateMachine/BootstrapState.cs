@@ -3,6 +3,7 @@ using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
 using CodeBase.Services.Gravity;
 using CodeBase.Services.Inputs;
+using CodeBase.Services.Physics;
 
 using UnityEngine;
 
@@ -40,12 +41,14 @@ namespace CodeBase.Infrastructure.StateMachine
             _services.RegisterSingle<IInputService>(InputService());
             _services.RegisterSingle<IGravityService>(new GravityService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+            _services.RegisterSingle<IPhysicsService>(new PhysicsDisplaycementService());
 
             _services.RegisterSingle<IMapFactory>(new MapFactory(_services.Single<IGravityService>()));
             _services.RegisterSingle<IHeroFactory>(new HeroFactory(
                     _services.Single<IAssetProvider>(),
                     _services.Single<IInputService>(),
-                    _services.Single<IGravityService>()
+                    _services.Single<IGravityService>(),
+                    _services.Single<IPhysicsService>()
                     ));
         }
 
