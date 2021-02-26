@@ -457,7 +457,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -469,7 +469,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 826783602058363207}
-  m_Material: {fileID: 13400000, guid: 41d9989607e4a2d44a2b528a43837943, type: 2}
+  m_Material: {fileID: 13400000, guid: 1f3d3ae28a493994c8cf86e38c9d3886, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
@@ -516,8 +516,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpHeight: 5
-  airJumpsCount: 1
-  groundChecker: {fileID: -1200503800177751006}
+  airJumpsCount: 2
+  collisionDetector: {fileID: -1200503800177751006}
 --- !u!114 &-1200503800177751006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,6 +530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b49ada8bf0c3b324d99963a9a3fd79e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxGroundAngle: 25
+  maxClimbAngle: 90
 --- !u!1 &970434223216236563
 GameObject:
   m_ObjectHideFlags: 0

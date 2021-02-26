@@ -4,8 +4,8 @@ namespace CodeBase.Infrastructure.Services
 {
     public class AllServices
     {
-        private static AllServices instance;
-        public static AllServices Container => instance ?? (instance = new AllServices());
+        private static AllServices instance = new AllServices();
+        public static AllServices Container => instance;
 
         public void RegisterSingle<TService>(TService implementation) where TService : IService => 
             Implementation<TService>.ServiceInstance = implementation;

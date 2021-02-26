@@ -12,57 +12,65 @@ namespace CodeBase.Logic.Hero
         [Range(1f, 20f)] public float jumpHeight;
         [Range(0, 5)] public int airJumpsCount;
 
-        public GroundChecker groundChecker;
+        public CollisionDetector collisionDetector;
 
         private int _jumpsCount;
         private Vector3 _currentVelocity;
 
         private IInputService _inputService;
-        private IPhysicsService _physicsDisplaycementService;
+        private IPhysicsService _physicsService;
 
-        public void Construct(IInputService inputService, IPhysicsService physicsDisplaycementService)
+        public void Construct(IInputService inputService, IPhysicsService physicsService)
         {
             _inputService = inputService;
-            _physicsDisplaycementService = physicsDisplaycementService;
+            _physicsService = physicsService;
         }
 
         private void Update()
         {
             if (_inputService.IsJumpPressed)
             {
-                Debug.Log("Jump");
-                _currentVelocity = _physicsDisplaycementService.Velocity;
+                _currentVelocity = _physicsService.RBVelocity;
                 Jump();
-                _physicsDisplaycementService.Velocity = _currentVelocity;
+                _physicsService.RBVelocity = _currentVelocity;
             }
         }
 
         private void FixedUpdate()
         {
-            if (groundChecker.IsGrounded)
+            if (collisionDetector.IsGrounded)
             {
                 _jumpsCount = 0;
             }
+            else if (!collisionDetector.IsClimbing)
+                _physicsService.RBVelocityY += -9.81f * Time.deltaTime;
         }
 
         private void Jump()
         {
-            if (_jumpsCount > airJumpsCount)
-                return;
+            Vector3 jumpDirection;
 
-            Vector3 jumpDirection = Vector3.up;
+            if (collisionDetector.IsGrounded)
+                jumpDirection = collisionDetector.ContactNormal;
+            else if (_jumpsCount < airJumpsCount)
+                jumpDirection = Vector3.up;
+            else return;
 
             _jumpsCount += 1;
 
-            float jumpSpeed = Mathf.Sqrt(2f * Vector3.down.magnitude * jumpHeight);
+            float jumpSpeed = Mathf.Sqrt(2f * collisionDetector.ContactNormal.magnitude * jumpHeight);
+
+            jumpDirection = (jumpDirection + collisionDetector.ContactNormal).normalized;
+
             float alignedSpeed = Vector3.Dot(_currentVelocity, jumpDirection);
 
             if (alignedSpeed > 0f)
                 jumpSpeed = Math.Max(jumpSpeed - alignedSpeed, 0f);
 
-            if(_currentVelocity.y<0)
+            if (_currentVelocity.y < 0)
                 _currentVelocity.y = 0;
-            _currentVelocity += jumpDirection * jumpSpeed;
+
+            _currentVelocity += jumpDirection.normalized * jumpSpeed;
         }
     }
 }

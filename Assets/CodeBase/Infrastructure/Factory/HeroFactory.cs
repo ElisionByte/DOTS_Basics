@@ -12,14 +12,14 @@ namespace CodeBase.Infrastructure.Factory
         private readonly IAssetProvider _assetProvider;
         private readonly IInputService _inputService;
         private readonly IGravityService _gravityService;
-        private readonly IPhysicsService _physicsDisplaycementService;
+        private readonly IPhysicsService _physicsService;
 
         public HeroFactory(IAssetProvider assetProvider, IInputService inputService, IGravityService gravityService, IPhysicsService physicsDisplaycementService)
         {
             _assetProvider = assetProvider;
             _inputService = inputService;
             _gravityService = gravityService;
-            _physicsDisplaycementService = physicsDisplaycementService;
+            _physicsService = physicsDisplaycementService;
         }
 
         public GameObject CreateHero(GameObject initialPoint)
@@ -31,10 +31,11 @@ namespace CodeBase.Infrastructure.Factory
 
         private void ConstructHero(GameObject hero)
         {
-            _physicsDisplaycementService.SetRigidbody(hero.GetComponent<Rigidbody>());
+            _physicsService.SetRigidbody(hero.GetComponent<Rigidbody>());
             hero.GetComponentInChildren<HeroForwardRotate>()?.Construct(_inputService);
-            hero.GetComponent<HeroMove>()?.Construct(_inputService, _physicsDisplaycementService);
-            hero.GetComponent<HeroJump>()?.Construct(_inputService, _physicsDisplaycementService);
+            hero.GetComponent<HeroMove>()?.Construct(_inputService, _physicsService);
+            hero.GetComponent<HeroJump>()?.Construct(_inputService, _physicsService);
+            hero.GetComponent<CollisionDetector>().Construct(_physicsService);
         }
     }
 }

@@ -56,9 +56,8 @@ namespace CodeBase.Infrastructure.StateMachine
         {
             if (Application.isEditor)
                 return new StandaloneInputService();
-
-            Debug.LogError("Wrong Input Service, will returned null");
-            return null;
+            else
+                return new StandaloneInputService();
         }
         private void EnterLoadLevelState() =>
             _gameStateMachine.Enter<LoadLevelState, string>(_afterLoadSceneName);

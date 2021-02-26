@@ -9,15 +9,17 @@ namespace CodeBase.Logic.Hero
     {
         [Range(1f, 100f)] public float maxSpeed;
 
-        private Vector3 _currentVelocity, _desiredVelocity;
+        private Vector3 _desiredVelocity;
 
         private IInputService _inputService;
-        private IPhysicsService _physicsDisplaycementService;
+        private IPhysicsService _physicsService;
+
+        private Vector3 _currentPosition;
 
         public void Construct(IInputService inputService,IPhysicsService physicsDisplaycementService)
         {
             _inputService = inputService;
-            _physicsDisplaycementService = physicsDisplaycementService;
+            _physicsService = physicsDisplaycementService;
         }
 
         private void Update()
@@ -26,17 +28,19 @@ namespace CodeBase.Logic.Hero
 
             if (_inputService.Axis.sqrMagnitude > Constants.Epsilone)
             {
-                Vector3 playerInput = new Vector3(_inputService.Axis.x, 0f, _inputService.Axis.y);
+                Vector3 playerInput = _inputService.Forward + _inputService.Right;
                 _desiredVelocity = playerInput * maxSpeed;
             }
         }
 
         private void FixedUpdate()
         {
-            _currentVelocity = _physicsDisplaycementService.Velocity;
-            _currentVelocity.x = _desiredVelocity.x;
-            _currentVelocity.z = _desiredVelocity.z;
-            _physicsDisplaycementService.Velocity = _currentVelocity;
+            _currentPosition = _physicsService.RBVelocity;
+
+            _currentPosition.x = _desiredVelocity.x;
+            _currentPosition.z = _desiredVelocity.z;
+
+            _physicsService.RBVelocity = _currentPosition;
         }
     }
 }
