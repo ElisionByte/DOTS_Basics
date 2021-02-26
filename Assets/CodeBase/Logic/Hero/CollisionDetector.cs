@@ -11,8 +11,11 @@ namespace CodeBase.Logic.Hero
 
         public bool IsGrounded => _groundNormalsCount > 0;
         public bool IsClimbing => _climbNormalsCount > 0;
-        public Vector3 ContactNormal => _contactNormal;
-
+        public Vector3 ContactNormal 
+        { 
+            get => _contactNormal; 
+            set => _contactNormal = value;
+        }
         private int _groundNormalsCount, _climbNormalsCount;
         private float _minGroundDotProduct;
         private float _minClimbDotProduct;
@@ -20,10 +23,8 @@ namespace CodeBase.Logic.Hero
 
         private IPhysicsService _physicsService;
 
-        public void Construct(IPhysicsService physicsService)
-        {
+        public void Construct(IPhysicsService physicsService) => 
             _physicsService = physicsService;
-        }
 
         private void Awake()
         {
@@ -41,8 +42,6 @@ namespace CodeBase.Logic.Hero
 
         private void EvaluateCollision(Collision collision)
         {
-            Debug.Log(collision.gameObject.name);
-
             for (int i = 0; i < collision.contactCount; i++)
             {
                 Vector3 normal = collision.GetContact(i).normal;
@@ -51,18 +50,21 @@ namespace CodeBase.Logic.Hero
 
                 if (upDot >= _minGroundDotProduct)
                 {
-                    _contactNormal = Vector3.zero;
+                    _physicsService.NormalSpaceDirection = NormalDirection.Default;
                     _groundNormalsCount += 1;
                     _contactNormal += normal;
                 }
-                else if (upDot > _minClimbDotProduct)
+                else if (upDot >= _minClimbDotProduct)
                 {
-                    _contactNormal = Vector3.zero;
                     _climbNormalsCount++;
 
-                    if (normal.normalized.z >= Constants.Epsilone || normal.normalized.z <= Constants.Epsilone * -1)
+                    if (normal.z >= Constants.Epsilone)
+                        _physicsService.NormalSpaceDirection = NormalDirection.ZReverseUp;
+                    else if(normal.z <= Constants.Epsilone * -1)
                         _physicsService.NormalSpaceDirection = NormalDirection.ZUp;
-                    if (normal.normalized.x >= Constants.Epsilone || normal.normalized.x <= Constants.Epsilone * -1)
+                    else if (normal.x >= Constants.Epsilone)
+                        _physicsService.NormalSpaceDirection = NormalDirection.XReverseUp;
+                    else if(normal.x <= Constants.Epsilone * -1)
                         _physicsService.NormalSpaceDirection = NormalDirection.XUp;
 
                     _contactNormal += normal;
@@ -73,7 +75,7 @@ namespace CodeBase.Logic.Hero
         {
             _groundNormalsCount = 0;
             _climbNormalsCount = 0;
-            _physicsService.NormalSpaceDirection = NormalDirection.YUp;
+            _physicsService.NormalSpaceDirection = NormalDirection.Default;
         }
     }
 }

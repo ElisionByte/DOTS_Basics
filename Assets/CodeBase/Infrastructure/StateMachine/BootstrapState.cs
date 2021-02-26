@@ -41,7 +41,7 @@ namespace CodeBase.Infrastructure.StateMachine
             _services.RegisterSingle<IInputService>(InputService());
             _services.RegisterSingle<IGravityService>(new GravityService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
-            _services.RegisterSingle<IPhysicsService>(new PhysicsDisplaycementService());
+            _services.RegisterSingle<IPhysicsService>(new PhysicsService());
 
             _services.RegisterSingle<IMapFactory>(new MapFactory(_services.Single<IGravityService>()));
             _services.RegisterSingle<IHeroFactory>(new HeroFactory(

@@ -38,19 +38,21 @@ namespace CodeBase.Logic.Hero
 
         private void FixedUpdate()
         {
-            if (collisionDetector.IsGrounded)
+            if (collisionDetector.IsGrounded || collisionDetector.IsClimbing)
             {
                 _jumpsCount = 0;
+                collisionDetector.ContactNormal = Vector3.zero;
             }
-            else if (!collisionDetector.IsClimbing)
+            else
                 _physicsService.RBVelocityY += -9.81f * Time.deltaTime;
+            
         }
 
         private void Jump()
         {
             Vector3 jumpDirection;
 
-            if (collisionDetector.IsGrounded)
+            if (collisionDetector.IsGrounded || collisionDetector.IsClimbing)
                 jumpDirection = collisionDetector.ContactNormal;
             else if (_jumpsCount < airJumpsCount)
                 jumpDirection = Vector3.up;
@@ -58,9 +60,9 @@ namespace CodeBase.Logic.Hero
 
             _jumpsCount += 1;
 
-            float jumpSpeed = Mathf.Sqrt(2f * collisionDetector.ContactNormal.magnitude * jumpHeight);
+            float jumpSpeed = Mathf.Sqrt(2f * Vector3.up.magnitude * jumpHeight);
 
-            jumpDirection = (jumpDirection + collisionDetector.ContactNormal).normalized;
+           // jumpDirection = (jumpDirection.normalized;
 
             float alignedSpeed = Vector3.Dot(_currentVelocity, jumpDirection);
 
