@@ -9,6 +9,7 @@ namespace CodeBase.Services.Physics
         NormalDirection NormalSpaceDirection { get; set; }
 
         Vector3 RBVelocity { get; set; }
+        Vector3 RBJumpVelocity { get; set; }
 
         void SetRigidbody(Rigidbody rigidbody);
     }

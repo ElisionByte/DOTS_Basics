@@ -1,6 +1,4 @@
-﻿using System;
-
-using CodeBase.Services.Physics;
+﻿using CodeBase.Services.Physics;
 
 using UnityEngine;
 
@@ -15,10 +13,11 @@ namespace CodeBase.Logic.Hero
         public CollisionDetector collisionDetector;
 
         private int _jumpsCount;
-        private Vector3 _currentVelocity;
+        private int _stepsSinseLastJump;
 
         private IInputService _inputService;
         private IPhysicsService _physicsService;
+        private bool _isJumping;
 
         public void Construct(IInputService inputService, IPhysicsService physicsService)
         {
@@ -28,11 +27,10 @@ namespace CodeBase.Logic.Hero
 
         private void Update()
         {
-            if (_inputService.IsJumpPressed)
+            _isJumping = _inputService.IsJumpPressed;
+            if (_isJumping)
             {
-                _currentVelocity = _physicsService.RBVelocity;
                 Jump();
-                _physicsService.RBVelocity = _currentVelocity;
             }
         }
 
@@ -41,38 +39,45 @@ namespace CodeBase.Logic.Hero
             if (collisionDetector.IsGrounded || collisionDetector.IsClimbing)
             {
                 _jumpsCount = 0;
-                collisionDetector.ContactNormal = Vector3.zero;
+                if (_stepsSinseLastJump >= 2)
+                {
+                    _physicsService.RBVelocityY = 0f;
+                    _physicsService.RBJumpVelocity = Vector3.zero;
+                }   
             }
             else
                 _physicsService.RBVelocityY += -9.81f * Time.deltaTime;
-            
+
+            _stepsSinseLastJump++;
         }
 
         private void Jump()
         {
-            Vector3 jumpDirection;
+            Vector3 _jumpVelocity;
 
-            if (collisionDetector.IsGrounded || collisionDetector.IsClimbing)
-                jumpDirection = collisionDetector.ContactNormal;
+            if (collisionDetector.IsGrounded)
+            {
+                _jumpVelocity = collisionDetector.ContactNormal;
+            }
+            else if (collisionDetector.IsClimbing)
+            {
+                _jumpVelocity = collisionDetector.ContactNormal;
+                _jumpVelocity += Vector3.up;
+            }
             else if (_jumpsCount < airJumpsCount)
-                jumpDirection = Vector3.up;
-            else return;
+                _jumpVelocity = Vector3.up;
+            else
+                return;
 
             _jumpsCount += 1;
+            _stepsSinseLastJump = 0;
 
-            float jumpSpeed = Mathf.Sqrt(2f * Vector3.up.magnitude * jumpHeight);
+            float jumpSpeed = Mathf.Sqrt(2f * _jumpVelocity.magnitude * jumpHeight);
 
-           // jumpDirection = (jumpDirection.normalized;
+            if (_physicsService.RBVelocityY < 0)
+                _physicsService.RBVelocityY = 0;
 
-            float alignedSpeed = Vector3.Dot(_currentVelocity, jumpDirection);
-
-            if (alignedSpeed > 0f)
-                jumpSpeed = Math.Max(jumpSpeed - alignedSpeed, 0f);
-
-            if (_currentVelocity.y < 0)
-                _currentVelocity.y = 0;
-
-            _currentVelocity += jumpDirection.normalized * jumpSpeed;
+            _physicsService.RBJumpVelocity = _jumpVelocity.normalized * jumpSpeed;
         }
     }
 }
