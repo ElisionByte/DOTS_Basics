@@ -26,7 +26,7 @@ namespace Observers
             }
 
             _transformAccessArray = new TransformAccessArray(transfromData);
-            _subjectDataArray = new NativeArray<ObserverData>(subjectData, Allocator.Persistent);
+            _subjectDataArray = new NativeArray<ObserverData>(subjectData, Allocator.Temp);
 
             _job = new SubjectTransformJob { Data = _subjectDataArray };
         }
@@ -38,7 +38,6 @@ namespace Observers
         public void Notify()
         {
             _jobHandle = _job.Schedule(_transformAccessArray);
-            JobHandle.ScheduleBatchedJobs();
             _jobHandle.Complete();
         }
     }

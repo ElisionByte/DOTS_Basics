@@ -8,7 +8,6 @@ namespace Observers
         public float delta;
         public ObserverActionType actionType;
         public ObserverType objectType;
-        //public  void UpdateSpawn(){ Debug.Log("SPAWN!"); }
     }
     public enum ObserverType
     {

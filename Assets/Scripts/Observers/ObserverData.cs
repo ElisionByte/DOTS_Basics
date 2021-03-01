@@ -46,9 +46,5 @@ namespace Observers
                     throw new System.Exception("Wrong observer action type");
             }
         }
-        //public void UpdateSpawnData()
-        //{
-
-        //}
     }
 }
