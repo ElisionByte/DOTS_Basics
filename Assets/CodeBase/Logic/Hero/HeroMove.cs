@@ -25,7 +25,6 @@ namespace CodeBase.Logic.Hero
         private void Update()
         {
             _desiredVelocity = Vector3.zero;
-
             if (_inputService.Axis.sqrMagnitude > Constants.Epsilone)
             {
                 Vector3 playerInput = _inputService.Forward + _inputService.Right;

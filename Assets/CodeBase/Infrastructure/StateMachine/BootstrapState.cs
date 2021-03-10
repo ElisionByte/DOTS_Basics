@@ -1,8 +1,10 @@
 ﻿using CodeBase.Infrastructure.AssetManagement;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
+using CodeBase.Infrastructure.Factories;
+using CodeBase.Logic.JobSystems.Map;
+using CodeBase.Services;
 using CodeBase.Services.Gravity;
 using CodeBase.Services.Inputs;
+using CodeBase.Services.Map;
 using CodeBase.Services.Physics;
 
 using UnityEngine;
@@ -12,7 +14,6 @@ namespace CodeBase.Infrastructure.StateMachine
     public class BootstrapState : IState
     {
         private const string _initialSceneName = "Initial";
-        //Will be main menu
         private const string _afterLoadSceneName = "Level1";
 
         private readonly GameStateMachine _gameStateMachine;
@@ -39,11 +40,14 @@ namespace CodeBase.Infrastructure.StateMachine
         private void RegisterServices()
         {
             _services.RegisterSingle<IInputService>(InputService());
-            _services.RegisterSingle<IGravityService>(new GravityService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<IPhysicsService>(new PhysicsService());
+            _services.RegisterSingle<IMapJobsSystemService>(new MapJobsSystemService());
 
-            _services.RegisterSingle<IMapFactory>(new MapFactory(_services.Single<IGravityService>()));
+            _services.RegisterSingle<IMapFactory>(new MapFactory(
+                    _services.Single<IAssetProvider>(),
+                    _services.Single<IMapJobsSystemService>()
+                    ));
             _services.RegisterSingle<IHeroFactory>(new HeroFactory(
                     _services.Single<IAssetProvider>(),
                     _services.Single<IInputService>(),

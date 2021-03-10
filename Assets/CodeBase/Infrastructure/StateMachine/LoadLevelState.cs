@@ -1,5 +1,6 @@
-﻿using CodeBase.Infrastructure.Factory;
+﻿using CodeBase.Infrastructure.Factories;
 using CodeBase.Logic.GravitySources;
+using CodeBase.Logic.Map;
 
 using UnityEngine;
 
@@ -41,7 +42,13 @@ namespace CodeBase.Infrastructure.StateMachine
         }
         private void InitGameWorld()
         {
-            _mapFactory.InitialiseMapComponents(GameObject.FindObjectOfType<GravitySourcesHandler>().GravitySources);
+            MapPropSpawner[] spawners =  GameObject.FindObjectsOfType<MapPropSpawner>();
+            foreach (MapPropSpawner spawner in spawners)
+            {
+                spawner.Construct(_mapFactory);
+                spawner.Spawn();
+            }
+            _mapFactory.CreatePropNotificator();
             _gameFactory.CreateHero(GameObject.FindGameObjectWithTag(_initPointTag));
         }
     }

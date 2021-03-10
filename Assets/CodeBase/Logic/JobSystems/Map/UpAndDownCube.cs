@@ -4,15 +4,17 @@ namespace CodeBase.Logic.JobSystems.Map
 {
     public class UpAndDownCube : MonoBehaviour
     {
-        public int YMax;
-        public int YMin;
-        public int Delta;
+        public float YMax;
+        public float YMin;
+        public float Delta;
+        public float Speed;
 
-        public void Construct(int maxY, int minY, int delta)
+        public void Construct(float distance, float speed, float delta)
         {
-            YMax = maxY;
-            YMin = minY;
+            YMax = transform.position.y + distance;
+            YMin = transform.position.y - distance;
             Delta = delta;
+            Speed = speed;
         }
     }
 }

@@ -9,13 +9,13 @@ namespace CodeBase.Logic.JobSystems.Map
 {
     public class MapJobsSystemService : IMapJobsSystemService
     {
-        private readonly NativeArray<UpAndDownCubeJobData> _upAndDownCubeJobData;
-        private readonly TransformAccessArray _transformAccessArray;
+        private NativeArray<UpAndDownCubeJobData> _upAndDownCubeJobData;
+        private TransformAccessArray _transformAccessArray;
 
         private MapUpAndDownCubeJob _mapUpAndDownCubeJob;
         private JobHandle _jobHandle;
 
-        public MapJobsSystemService(List<UpAndDownCube> cubes)
+        public void CreateJob(List<UpAndDownCube> cubes)
         {
             var cubesData = new UpAndDownCubeJobData[cubes.Count];
             var transformData = new Transform[cubes.Count];
@@ -27,13 +27,16 @@ namespace CodeBase.Logic.JobSystems.Map
             }
 
             _transformAccessArray = new TransformAccessArray(transformData);
-            _upAndDownCubeJobData = new NativeArray<UpAndDownCubeJobData>(cubesData, Allocator.Temp);
+            _upAndDownCubeJobData = new NativeArray<UpAndDownCubeJobData>(cubesData, Allocator.TempJob);
 
             _mapUpAndDownCubeJob = new MapUpAndDownCubeJob { JobData = _upAndDownCubeJobData };
         }
 
-        public void ScheduleJob() =>
+        public void ScheduleJob()
+        {
             _jobHandle = _mapUpAndDownCubeJob.Schedule(_transformAccessArray);
+        }
+
         public void CompleteJob() =>
             _jobHandle.Complete();
         public void DisposeJob()

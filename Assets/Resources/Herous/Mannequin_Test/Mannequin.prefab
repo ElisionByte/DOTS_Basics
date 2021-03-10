@@ -3200,6 +3200,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Katana
       objectReference: {fileID: 0}
+    - target: {fileID: 8079102340633224242, guid: 21cd4fecd03742b4e8c37334110693a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8887128644485922440, guid: 21cd4fecd03742b4e8c37334110693a1,
         type: 3}
       propertyPath: m_RootOrder

@@ -9,12 +9,9 @@ namespace CodeBase.Logic.JobSystems.Map
 
         public void Execute(int index, TransformAccess transform)
         {
-            while (true)
-            {
-                UpAndDownCubeJobData cube = JobData[index];
-                transform.position = cube.UpdateState(transform.position.y);
-                JobData[index] = cube;
-            }
+            UpAndDownCubeJobData cube = JobData[index];
+            transform.position = cube.UpdateState(transform.position);
+            JobData[index] = cube;
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
+using CodeBase.Infrastructure.Factories;
+using CodeBase.Services;
 
 namespace CodeBase.Infrastructure.StateMachine
 {
