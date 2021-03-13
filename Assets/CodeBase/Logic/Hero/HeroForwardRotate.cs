@@ -8,12 +8,13 @@ namespace CodeBase.Logic.Hero
         public Transform root;
 
         private float _turnVelocity;
+        private float _lastAngle;
         private IInputService _inputService;
+
         public void Construct(IInputService inputService)
         {
             _inputService = inputService;
         }
-
 
         private void Update() =>
             RotateForvard();
@@ -26,10 +27,10 @@ namespace CodeBase.Logic.Hero
 
                 float targetAngle = Mathf.Atan2(_direction.x, _direction.y) * Mathf.Rad2Deg;
 
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, root.rotation.eulerAngles.y + targetAngle, ref _turnVelocity, rotateTime);
-
-                transform.rotation = Quaternion.Euler(0, angle, 0);
+                _lastAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, root.rotation.eulerAngles.y + targetAngle, ref _turnVelocity, rotateTime);
             }
+
+            transform.rotation = Quaternion.Euler(0, _lastAngle, 0);
         }
     }
 }
