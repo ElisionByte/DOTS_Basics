@@ -1,12 +1,12 @@
-
 using CodeBase.Services;
+
 using UnityEngine;
 
 public interface IInputService : IService
 {
     Vector2 Axis { get; }
-    Vector3 Right { get; }
-    Vector3 Forward { get; }
+    float RightValue { get; }
+    float ForwardValue { get; }
 
     bool IsJumpPressed { get; }
 }

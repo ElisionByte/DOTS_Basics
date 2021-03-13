@@ -16,7 +16,7 @@ namespace CodeBase.Logic.Hero
 
         private Vector3 _currentPosition;
 
-        public void Construct(IInputService inputService,IPhysicsService physicsDisplaycementService)
+        public void Construct(IInputService inputService, IPhysicsService physicsDisplaycementService)
         {
             _inputService = inputService;
             _physicsService = physicsDisplaycementService;
@@ -25,9 +25,10 @@ namespace CodeBase.Logic.Hero
         private void Update()
         {
             _desiredVelocity = Vector3.zero;
+
             if (_inputService.Axis.sqrMagnitude > Constants.Epsilone)
             {
-                Vector3 playerInput = _inputService.Forward + _inputService.Right;
+                Vector3 playerInput = transform.forward *_inputService.ForwardValue + transform.right * _inputService.RightValue;
                 _desiredVelocity = playerInput * maxSpeed;
             }
         }

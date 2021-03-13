@@ -28,6 +28,7 @@ namespace CodeBase.Logic.Hero
         {
             Vector3 heroVelocity = heroRigidbody.velocity;
             animator.SetFloat(_horizontalSpeedHash, Mathf.Abs(heroVelocity.x) + Mathf.Abs(heroVelocity.z), 0.1f, Time.deltaTime);
+            animator.SetFloat(_verticalSpeedHash, heroVelocity.y, 0.1f, Time.deltaTime);
         }
 
         public void EnteredState(int stateHash)

@@ -9,8 +9,8 @@ namespace CodeBase.Services.Inputs
         private const string _jumpButtonName = "Jump";
 
         public abstract Vector2 Axis { get; }
-        public abstract Vector3 Right { get; }
-        public abstract Vector3 Forward { get; }
+        public abstract float RightValue { get; }
+        public abstract float ForwardValue { get; }
 
         public bool IsJumpPressed => Input.GetButtonDown(_jumpButtonName);
 
