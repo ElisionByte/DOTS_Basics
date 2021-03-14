@@ -19,6 +19,7 @@ namespace CodeBase.Logic.Hero
         private int _groundRunHash = Animator.StringToHash("GroundRun");
         private int _wallRunHash = Animator.StringToHash("WallRun");
         private int _jumpHash = Animator.StringToHash("Jump");
+        private int _flyHash = Animator.StringToHash("IsFly");
 
         public event Action<AnimatorState> StateEntered;
         public event Action<AnimatorState> StateExited;
@@ -27,8 +28,13 @@ namespace CodeBase.Logic.Hero
         private void Update()
         {
             Vector3 heroVelocity = heroRigidbody.velocity;
+
             animator.SetFloat(_horizontalSpeedHash, Mathf.Abs(heroVelocity.x) + Mathf.Abs(heroVelocity.z), 0.1f, Time.deltaTime);
+
             animator.SetFloat(_verticalSpeedHash, heroVelocity.y, 0.1f, Time.deltaTime);
+
+            if (heroVelocity.y > Constants.Epsilone || heroVelocity.y < -Constants.Epsilone)
+                PlayFly();
         }
 
         public void EnteredState(int stateHash)
@@ -40,10 +46,20 @@ namespace CodeBase.Logic.Hero
         {
             StateExited?.Invoke(StateFor(stateHash));
         }
+        public void PlayWallRun() => animator.SetTrigger(_wallRunHash);
 
         public void PlayGroundRun() => animator.SetTrigger(_groundRunHash);
-        public void PlayWallRun() => animator.SetTrigger(_wallRunHash);
+
         public void PlayJump() => animator.SetTrigger(_jumpHash);
+
+        public void StopJump()
+        {
+            animator.ResetTrigger(_jumpHash);
+            StopFly();
+        }
+
+        private void PlayFly() => animator.SetTrigger(_flyHash);
+        private void StopFly() => animator.ResetTrigger(_flyHash);
 
         private AnimatorState StateFor(int stateHash)
         {
@@ -55,7 +71,7 @@ namespace CodeBase.Logic.Hero
                 resultState = AnimatorState.WallRun;
             else
                 resultState = AnimatorState.Jump;
-
+            Debug.Log(resultState);
             return resultState;
         }
     }

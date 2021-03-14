@@ -11,6 +11,7 @@ namespace CodeBase.Logic.Hero
         [Range(0, 5)] public int airJumpsCount;
 
         public CollisionDetector collisionDetector;
+        public HeroAnimator heroAnimator;
 
         private int _jumpsCount;
         private int _stepsSinseLastJump;
@@ -43,7 +44,14 @@ namespace CodeBase.Logic.Hero
                 {
                     _physicsService.RBVelocityY = 0f;
                     _physicsService.RBJumpVelocity = Vector3.zero;
-                }   
+                }
+
+                if (collisionDetector.IsGrounded)
+                    heroAnimator.PlayGroundRun();
+                else
+                    heroAnimator.PlayWallRun();
+
+                heroAnimator.StopJump();
             }
             else
                 _physicsService.RBVelocityY += -9.81f * Time.deltaTime;
@@ -68,6 +76,9 @@ namespace CodeBase.Logic.Hero
                 _jumpVelocity = Vector3.up;
             else
                 return;
+
+            if (_jumpsCount == 0)
+                heroAnimator.PlayJump();
 
             _jumpsCount += 1;
             _stepsSinseLastJump = 0;
