@@ -32,7 +32,7 @@ namespace CodeBase.Infrastructure.Factories
         private void ConstructHero(GameObject hero)
         {
             _physicsService.SetRigidbody(hero.GetComponent<Rigidbody>());
-            hero.GetComponentInChildren<HeroForwardRotate>()?.Construct(_inputService);
+            hero.GetComponentInChildren<HeroRotator>()?.Construct(_inputService);
             hero.GetComponent<HeroMove>()?.Construct(_inputService, _physicsService);
             hero.GetComponent<HeroJump>()?.Construct(_inputService, _physicsService);
             hero.GetComponent<CollisionDetector>().Construct(_physicsService);

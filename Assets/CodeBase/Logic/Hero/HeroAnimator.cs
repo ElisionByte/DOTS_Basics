@@ -16,9 +16,9 @@ namespace CodeBase.Logic.Hero
         private int _horizontalSpeedHash = Animator.StringToHash("HorizontalSpeed");
         private int _verticalSpeedHash = Animator.StringToHash("VerticalSpeed");
 
-        private int _groundRunHash = Animator.StringToHash("GroundRun");
-        private int _wallRunHash = Animator.StringToHash("WallRun");
-        private int _jumpHash = Animator.StringToHash("Jump");
+        private int _groundRunHash = Animator.StringToHash("GroundMove");
+        private int _wallRunHash = Animator.StringToHash("WallMove");
+        private int _jumpHash = Animator.StringToHash("FlyingMove");
         private int _flyHash = Animator.StringToHash("IsFly");
 
         public event Action<AnimatorState> StateEntered;
@@ -63,15 +63,17 @@ namespace CodeBase.Logic.Hero
 
         private AnimatorState StateFor(int stateHash)
         {
-            AnimatorState resultState;
+            AnimatorState resultState = default;
 
             if (stateHash == _groundRunHash)
                 resultState = AnimatorState.GroundRun;
             else if (stateHash == _wallRunHash)
                 resultState = AnimatorState.WallRun;
-            else
+            else if(stateHash == _jumpHash)
                 resultState = AnimatorState.Jump;
+
             Debug.Log(resultState);
+
             return resultState;
         }
     }
