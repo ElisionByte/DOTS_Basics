@@ -37,12 +37,13 @@ namespace CodeBase.Logic.Hero
         private void OnCollisionEnter(Collision collision) =>
            EvaluateCollision(collision);
         private void OnCollisionStay(Collision collision) =>
-            EvaluateCollision(collision);
+           EvaluateCollision(collision);
 
         private void EvaluateCollision(Collision collision)
         {
             for (int i = 0; i < collision.contactCount; i++)
             {
+                Debug.Log(collision.contactCount);
                 Vector3 normal = collision.GetContact(i).normal;
 
                 float upDot = Vector3.Dot(Vector3.up, normal);
@@ -51,34 +52,30 @@ namespace CodeBase.Logic.Hero
                 {
                     _groundNormalsCount++;
                     _physicsService.NormalSpaceDirection = NormalDirection.Default;
-                    _contactNormal += normal;
                 }
                 else if (upDot >= _minClimbDotProduct)
                 {
                     _climbNormalsCount++;
-                    _contactNormal += normal;
 
                     if (normal.z >= Constants.Epsilone)
                     {
                         _physicsService.NormalSpaceDirection = NormalDirection.ZReverseUp;
-                        break;
                     }
                     else if (normal.z <= Constants.Epsilone * -1)
                     {
                         _physicsService.NormalSpaceDirection = NormalDirection.ZUp;
-                        break;
                     }
                     else if (normal.x >= Constants.Epsilone)
                     {
                         _physicsService.NormalSpaceDirection = NormalDirection.XReverseUp;
-                        break;
                     }
                     else if (normal.x <= Constants.Epsilone * -1)
                     {
                         _physicsService.NormalSpaceDirection = NormalDirection.XUp;
-                        break;
                     }
                 }
+
+                _contactNormal += normal;
             }
         }
         private void ClearState()

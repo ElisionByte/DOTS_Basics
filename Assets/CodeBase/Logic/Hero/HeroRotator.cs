@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+
+using CodeBase.Logic.Hero.Animation;
+
+using UnityEngine;
 
 namespace CodeBase.Logic.Hero
 {
-    class HeroRotator : MonoBehaviour
+    public class HeroRotator : MonoBehaviour
     {
         [Range(0.01f, 1f)] public float rotateTime;
 
@@ -10,6 +14,8 @@ namespace CodeBase.Logic.Hero
         public Transform rootTransform;
         public Transform meshTransform;
         public CollisionDetector CollisionDetector;
+
+        public AnimatorState AnimatorState;
 
         private float _turnVelocity;
         private float _lastAngle;
@@ -22,17 +28,31 @@ namespace CodeBase.Logic.Hero
 
         private void Update()
         {
-            if (CollisionDetector.IsGrounded)
+            if (!CollisionDetector.IsClimbing)
             {
                 MeshRotate();
             }
+            else
+            {
+                StateChange();
+            }
         }
-
         private void LateUpdate()
         {
-            if (CollisionDetector.IsGrounded)
+            rootTransform.rotation = Quaternion.Euler(UpVector());
+        }
+
+        public void StateChange()
+        {
+            switch (AnimatorState)
             {
-                rootTransform.rotation = Quaternion.Euler(UpVector());
+                case AnimatorState.WallRun:
+                    {
+                        meshTransform.rotation = Quaternion.Euler(CollisionDetector.ContactNormal);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -49,7 +69,6 @@ namespace CodeBase.Logic.Hero
 
             meshTransform.rotation = Quaternion.Euler(0, _lastAngle, 0);
         }
-
         private Vector3 UpVector()
         {
             return new Vector3(0, camera.transform.rotation.eulerAngles.y, 0);
