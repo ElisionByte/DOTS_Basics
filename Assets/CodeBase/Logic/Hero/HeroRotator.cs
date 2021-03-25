@@ -1,6 +1,4 @@
-﻿using System;
-
-using CodeBase.Logic.Hero.Animation;
+﻿using CodeBase.Logic.Hero.Animation;
 
 using UnityEngine;
 
@@ -21,6 +19,8 @@ namespace CodeBase.Logic.Hero
         private float _lastAngle;
         private IInputService _inputService;
 
+        private Quaternion _meshRotationAngle;
+
         public void Construct(IInputService inputService)
         {
             _inputService = inputService;
@@ -28,27 +28,27 @@ namespace CodeBase.Logic.Hero
 
         private void Update()
         {
+            rootTransform.rotation = Quaternion.Euler(UpVector());
+
             if (!CollisionDetector.IsClimbing)
             {
                 MeshRotate();
             }
             else
             {
-                StateChange();
+                StateMeshRotationAngle();
             }
         }
-        private void LateUpdate()
-        {
-            rootTransform.rotation = Quaternion.Euler(UpVector());
-        }
 
-        public void StateChange()
+        public void StateMeshRotationAngle()
         {
             switch (AnimatorState)
             {
                 case AnimatorState.WallRun:
                     {
-                        meshTransform.rotation = Quaternion.Euler(CollisionDetector.ContactNormal);
+                        float targetAngle = Mathf.Atan2(CollisionDetector.ContactNormal.x, CollisionDetector.ContactNormal.z) * Mathf.Rad2Deg;
+                        _meshRotationAngle = Quaternion.Euler(new Vector3(0, targetAngle + 180, 0));
+                        meshTransform.rotation = _meshRotationAngle;
                     }
                     break;
                 default:
