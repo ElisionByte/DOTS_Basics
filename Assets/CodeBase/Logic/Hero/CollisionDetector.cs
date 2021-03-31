@@ -52,6 +52,8 @@ namespace CodeBase.Logic.Hero
                 {
                     _groundNormalsCount++;
                     _physicsService.NormalSpaceDirection = NormalDirection.Default;
+
+                    _contactNormal += normal;
                 }
                 else if (upDot >= _minClimbDotProduct)
                 {
@@ -73,9 +75,11 @@ namespace CodeBase.Logic.Hero
                     {
                         _physicsService.NormalSpaceDirection = NormalDirection.XUp;
                     }
-                }
 
-                _contactNormal += normal;
+                    _contactNormal += normal;
+                }
+                else
+                    continue;
             }
         }
         private void ClearState()

@@ -18,7 +18,7 @@ namespace Player.Characters
         private void Start()
         {
             SetState(new IdleState(this));
-            weapon.Setup(boxCollider, layerID);
+            //weapon.Setup(boxCollider, layerID);
         }
 
         private void FixedUpdate()

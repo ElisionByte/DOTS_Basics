@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 4107034503236754629}
   - component: {fileID: 4107034503236754630}
   - component: {fileID: 4107034503236754631}
+  - component: {fileID: 3935211753230828884}
   m_Layer: 0
   m_Name: KatanaSlash_Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4107034503236754629
 Transform:
   m_ObjectHideFlags: 0
@@ -115,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.3
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -4862,3 +4863,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3935211753230828884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4107034503236754624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6faa83c1b0d2f548b0a3a6994531609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
