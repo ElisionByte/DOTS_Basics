@@ -1,6 +1,7 @@
 ﻿using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Factories;
 using CodeBase.Logic.JobSystems.Map;
+using CodeBase.Logic.UI;
 using CodeBase.Services;
 using CodeBase.Services.Gravity;
 using CodeBase.Services.Inputs;
@@ -14,7 +15,7 @@ namespace CodeBase.Infrastructure.StateMachine
     public class BootstrapState : IState
     {
         private const string _initialSceneName = "Initial";
-        private const string _afterLoadSceneName = "Level1";
+        private const string _afterLoadSceneName = "Menu";
 
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -40,9 +41,16 @@ namespace CodeBase.Infrastructure.StateMachine
         private void RegisterServices()
         {
             _services.RegisterSingle<IInputService>(InputService());
+            _services.RegisterSingle<IHandlerUIService>(new HandlerUIService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<IPhysicsService>(new PhysicsService());
             _services.RegisterSingle<IMapJobsSystemService>(new MapJobsSystemService());
+
+            _services.RegisterSingle<IFactoryUIService>(new FactoryUI(
+                _gameStateMachine,
+                _services.Single<IAssetProvider>(),
+                _services.Single<IHandlerUIService>()
+                ));
 
             _services.RegisterSingle<IMapFactory>(new MapFactory(
                     _services.Single<IAssetProvider>(),
@@ -64,6 +72,6 @@ namespace CodeBase.Infrastructure.StateMachine
                 return new StandaloneInputService();
         }
         private void EnterLoadLevelState() =>
-            _gameStateMachine.Enter<LoadLevelState, string>(_afterLoadSceneName);
+            _gameStateMachine.Enter<LoadMenuState, string>(_afterLoadSceneName);
     }
 }

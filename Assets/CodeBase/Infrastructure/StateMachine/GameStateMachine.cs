@@ -16,6 +16,7 @@ namespace CodeBase.Infrastructure.StateMachine
             states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
+                [typeof(LoadMenuState)] = new LoadMenuState(this,sceneLoader, services.Single<IFactoryUIService>(), loadingCurtain),
                 [typeof(LoadLevelState)] = new LoadLevelState(
                     this,
                     sceneLoader,

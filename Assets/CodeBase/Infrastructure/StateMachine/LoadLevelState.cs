@@ -1,5 +1,4 @@
 ﻿using CodeBase.Infrastructure.Factories;
-using CodeBase.Logic.GravitySources;
 using CodeBase.Logic.Map;
 
 using UnityEngine;
@@ -32,15 +31,15 @@ namespace CodeBase.Infrastructure.StateMachine
 
         public void Exit()
         {
-            Debug.Log("Exit load level State");
+        
         }
 
         private void OnCompletedLoad()
         {
-            InitGameWorld();
+            InitLevel();
             _loadingCurtain.Close();
         }
-        private void InitGameWorld()
+        private void InitLevel()
         {
             MapPropSpawner[] spawners =  GameObject.FindObjectsOfType<MapPropSpawner>();
             foreach (MapPropSpawner spawner in spawners)

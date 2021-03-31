@@ -1,14 +1,12 @@
 ﻿using System.Collections;
 
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CodeBase.Infrastructure
 {
     public class LoadingCurtain : MonoBehaviour, IWindow
     {
         public CanvasGroup canvasGroup;
-        public Slider slider;
 
         private void Awake()
         {
