@@ -1,2 +1,2 @@
 # Steon Runners
-This is a my own game prototype
+Cut & run game prototype
