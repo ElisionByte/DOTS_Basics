@@ -1,7 +1,7 @@
 # DOTS_Basics
 Some practice with DOTS Job System, implementing move controller and cutting system
 
-**DOTS Job System with ~15k objects**
+**DOTS Job System with ~15k moving objects**
 <img width="1874" alt="Jobs" src="https://github.com/Scvirel/DOTS_Basics/assets/46399252/aeb5af43-4a4a-4a5d-8ca2-491f6d2358b6">
 
 **Cutting system**
